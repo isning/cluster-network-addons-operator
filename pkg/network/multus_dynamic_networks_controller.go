@@ -28,10 +28,6 @@ func fillDefaultsMultusDynamicNetworks(conf, previous *cnao.NetworkAddonsConfigS
 	return []error{}
 }
 
-func changeSafeMultusDynamicNetworks(prev, next *cnao.NetworkAddonsConfigSpec) []error {
-	return []error{}
-}
-
 // renderMultusDynamicNetworks generates the manifests of multus-dynamic-networks-controller
 func renderMultusDynamicNetworks(conf *cnao.NetworkAddonsConfigSpec, manifestDir string, clusterInfo *ClusterInfo) ([]*unstructured.Unstructured, error) {
 	if conf.MultusDynamicNetworks == nil {
