@@ -20,9 +20,12 @@ func fillDefaultsMultusDynamicNetworks(conf, previous *cnao.NetworkAddonsConfigS
 		return []error{}
 	}
 
-	// If user hasn't explicitly set host cri socket path, set it to default value
 	if conf.MultusDynamicNetworks.HostCRISocketPath == "" {
-		conf.MultusDynamicNetworks.HostCRISocketPath = "/run/crio/crio.sock"
+		if previous != nil && previous.MultusDynamicNetworks != nil && previous.MultusDynamicNetworks.HostCRISocketPath != "" {
+			conf.MultusDynamicNetworks.HostCRISocketPath = previous.MultusDynamicNetworks.HostCRISocketPath
+		} else {
+			conf.MultusDynamicNetworks.HostCRISocketPath = "/run/crio/crio.sock"
+		}
 	}
 
 	return []error{}

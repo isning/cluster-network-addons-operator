@@ -116,6 +116,21 @@ var _ = Describe("Testing multus-dynamic-networks", func() {
 					Multus:                &cnao.Multus{},
 					MultusDynamicNetworks: &cnao.MultusDynamicNetworks{},
 				}),
+			)
+		})
+
+		When("the user hasn't configured hostCriSocketPath", func() {
+			DescribeTable(
+				"should use the previous value of hostCriSocketPath, and not return an error",
+				func(previousClusterConfig *cnao.NetworkAddonsConfigSpec) {
+					currentClusterConfig := &cnao.NetworkAddonsConfigSpec{
+						Multus:                &cnao.Multus{},
+						MultusDynamicNetworks: &cnao.MultusDynamicNetworks{},
+					}
+					errorList := fillDefaultsMultusDynamicNetworks(currentClusterConfig, previousClusterConfig)
+					Expect(currentClusterConfig.MultusDynamicNetworks.HostCRISocketPath).To(Equal("/run/containerd/containerd.sock"))
+					Expect(errorList).To(BeEmpty())
+				},
 				Entry("with a previous hostCriSocketPath configured", &cnao.NetworkAddonsConfigSpec{
 					Multus:                &cnao.Multus{},
 					MultusDynamicNetworks: &cnao.MultusDynamicNetworks{HostCRISocketPath: "/run/containerd/containerd.sock"},
