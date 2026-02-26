@@ -107,8 +107,9 @@ var _ = Describe("Testing multus-dynamic-networks", func() {
 						Multus:                &cnao.Multus{},
 						MultusDynamicNetworks: &cnao.MultusDynamicNetworks{},
 					}
-					fillDefaultsMultusDynamicNetworks(currentClusterConfig, previousClusterConfig)
+					errorList := fillDefaultsMultusDynamicNetworks(currentClusterConfig, previousClusterConfig)
 					Expect(currentClusterConfig.MultusDynamicNetworks.HostCRISocketPath).To(Equal("/run/crio/crio.sock"))
+					Expect(errorList).To(BeEmpty())
 				},
 				Entry("with no previous multusDynamicNetworks exists", &cnao.NetworkAddonsConfigSpec{}),
 				Entry("with a previous multusDynamicNetworks exists", &cnao.NetworkAddonsConfigSpec{
@@ -130,8 +131,9 @@ var _ = Describe("Testing multus-dynamic-networks", func() {
 						Multus:                &cnao.Multus{},
 						MultusDynamicNetworks: &cnao.MultusDynamicNetworks{HostCRISocketPath: "/run/containerd/containerd.sock"},
 					}
-					fillDefaultsMultusDynamicNetworks(currentClusterConfig, previousClusterConfig)
+					errorList := fillDefaultsMultusDynamicNetworks(currentClusterConfig, previousClusterConfig)
 					Expect(currentClusterConfig.MultusDynamicNetworks.HostCRISocketPath).To(Equal("/run/containerd/containerd.sock"))
+					Expect(errorList).To(BeEmpty())
 				},
 				Entry("with no previous multusDynamicNetworks exists", &cnao.NetworkAddonsConfigSpec{}),
 				Entry("with a previous multusDynamicNetworks exists", &cnao.NetworkAddonsConfigSpec{
